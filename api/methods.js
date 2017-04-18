@@ -4,7 +4,7 @@ let users = new Array();
 const add = (id, params, callback) => {
   let newUser = new User(users.length, params.name, params.score);
   users.push(newUser);
-  callback('User was successfully added!');
+  callback(null, 'User was successfully added!');
 }
 
 const edit = (id, params, callback) => {
@@ -17,9 +17,9 @@ const edit = (id, params, callback) => {
     }
   }
   if (tmp) {
-    callback('OK');
+    callback(null, 'OK');
   } else {
-    callback('User not found');
+    callback(null, 'User not found');
   }
 }
 
@@ -32,9 +32,9 @@ const del = (id, params, callback) => {
     }
   }
   if (tmp) {
-    callback('OK');
+    callback(null, 'OK');
   } else {
-    callback('User not found');
+    callback(null, 'User not found');
   }
 }
 
@@ -46,9 +46,9 @@ const get = (id, params, callback) => {
     }
   }
   if (tmp) {
-    callback(tmp);
+    callback(null, tmp);
   } else {
-    callback('User not found');
+    callback(null, 'User not found');
   }
 }
 

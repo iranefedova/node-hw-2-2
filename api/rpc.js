@@ -29,32 +29,20 @@ app.post("/users", function(req, res) {
     return;
   }
 
-try {
-  rpcMethod(data.id, data.params, {
-    onSuccess: function(result) {
-      res.send(JSON.stringify({
-        jsonrpc: '2.0',
-        result: result,
-        error : null,
-        id: data.id
-      }), 200);
-    },
-    onFailure: function(error) {
-      onError({
-        code: -32603,
-        message: 'Failed',
-        data: error
-      }, 500);
-    }
+  rpcMethod(data.id, data.params, (err, result) => {
+      (err) ? onError(err, 500) :
+          onSuccess(result)
   });
-} catch (e) {
-  onError({
-    code: -32603,
-    message: 'Exception at method call',
-    data: e
-  }, 500);
+
+
+function onSuccess(result) {
+  res.status(200).send(JSON.stringify({
+    jsonrpc: '2.0',
+    result: result,
+    error : null,
+    id: data.id
+  }));
 }
-return;
 
 function onError(err, statusCode) {
   res.status(statusCode).send(JSON.stringify({
