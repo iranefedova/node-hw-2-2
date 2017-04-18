@@ -14,7 +14,7 @@ app.get("/users", function(req, res) {
 });
 
 app.post("/users", function(req, res) {
-  let newUser = new User(users.length, req.query.name, req.query.score);
+  let newUser = new User(users.length, req.body.name, req.body.score);
   users.push(newUser);
   res.send('User was successfully added!');
 });
@@ -29,8 +29,7 @@ app.get("/users/:id", function(req, res) {
   if (tmp != null) {
     res.send(tmp);
   } else {
-    res.status(400);
-    res.send('User not found');
+    res.status(400).send('User not found');
   }
 });
 
@@ -38,16 +37,15 @@ app.put("/users/:id", function(req, res) {
   let tmp = false;
   for (let i=0; i<users.length; i++) {
     if (users[i].id == req.params.id) {
-      users[i].name = req.query.name;
-      users[i].score = req.query.score;
+      users[i].name = req.body.name;
+      users[i].score = req.body.score;
       tmp = true;
     }
   }
   if (tmp) {
     res.json({message: 'OK'});
   } else {
-    res.status(400);
-    res.send('User not found');
+    res.status(400).send('User not found');
   }
 });
 
@@ -62,7 +60,6 @@ app.delete("/users/:id", function(req, res) {
   if (tmp) {
     res.json({message: 'OK'});
   } else {
-    res.status(400);
-    res.send('User not found');
+    res.status(400).send('User not found');
   }
 });
