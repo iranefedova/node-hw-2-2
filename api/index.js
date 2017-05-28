@@ -3,6 +3,7 @@ const app = module.exports = express();
 const User = require('../User');
 
 let users = new Array();
+users.push(new User(0, 'Ivan', 30));
 
 app.get("/users", function(req, res) {
   if (users.lenght > 0) {
@@ -13,9 +14,13 @@ app.get("/users", function(req, res) {
 });
 
 app.post("/users", function(req, res) {
-  let newUser = new User(users.length, req.body.name, req.body.score);
-  users.push(newUser);
-  res.send('User was successfully added!');
+  if (!req.body.name) {
+    res.status(400).send('Username is required!');
+  } else {
+    let newUser = new User(users.length, req.body.name, req.body.score);
+    users.push(newUser);
+    res.status(200).end('User was successfully added!');
+  }
 });
 
 app.get("/users/:id", function(req, res) {
@@ -57,7 +62,7 @@ app.delete("/users/:id", function(req, res) {
     }
   }
   if (tmp) {
-    res.json({message: 'OK'});
+    res.status(200).send('Successfully deleted');
   } else {
     res.status(400).send('User not found');
   }
