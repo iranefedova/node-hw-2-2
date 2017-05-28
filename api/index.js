@@ -4,7 +4,6 @@ const User = require('../User');
 
 let users = new Array();
 
-// 127.0.0.1:3000/api/users?name=Ivan&score=17
 app.get("/users", function(req, res) {
   if (users.lenght > 0) {
     res.send(users);
